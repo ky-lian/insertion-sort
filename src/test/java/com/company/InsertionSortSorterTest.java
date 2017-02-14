@@ -1,6 +1,5 @@
 package com.company;
 
-import com.company.InsertionSortSorter;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -11,15 +10,15 @@ import java.util.Collection;
 
 
 /**
- *  Insertion sort testing, including Integer and String sorting, ascending and descending order.
+ * Insertion sort testing, including Integer and String sorting, ascending and descending order.
  */
 @RunWith(Parameterized.class)
 public class InsertionSortSorterTest {
 
 
-    private Comparable[] inputArray;
+    private final Comparable[] inputArray;
 
-    private Comparable[] expectedArray;
+    private final Comparable[] expectedArray;
 
     public InsertionSortSorterTest(Comparable[] inputArray, Comparable[] expectedArray) {
         this.inputArray = inputArray;
@@ -34,11 +33,13 @@ public class InsertionSortSorterTest {
                 {new Comparable[]{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}, new Comparable[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}}, // worst case
                 {new Comparable[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, new Comparable[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}}, // best case
                 {new Comparable[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, new Comparable[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}, // best case, with repeat
+                {new Comparable[]{1}, new Comparable[]{1}}, // minimal set
                 {new Comparable[]{"a", "d", "b", "c"}, new Comparable[]{"a", "b", "c", "d"}}, // average case, no repeat
                 {new Comparable[]{"a", "d", "d", "c"}, new Comparable[]{"a", "c", "d", "d"}}, // average case, with repeat
                 {new Comparable[]{"d", "c", "b", "a"}, new Comparable[]{"a", "b", "c", "d"}}, // worst case
                 {new Comparable[]{"a", "b", "c", "d"}, new Comparable[]{"a", "b", "c", "d"}}, // best case
-                {new Comparable[]{"a", "a", "a", "a"}, new Comparable[]{"a", "a", "a", "a"}} // best case, with repeat
+                {new Comparable[]{"a", "a", "a", "a"}, new Comparable[]{"a", "a", "a", "a"}}, // best case, with repeat
+                {new Comparable[]{"a"}, new Comparable[]{"a"}} // minimal set
         });
     }
 
