@@ -13,19 +13,20 @@ import java.util.Collection;
  * Insertion sort testing, including Integer and String sorting, ascending and descending order.
  */
 @RunWith(Parameterized.class)
-public class InsertionSortSorterTest {
+public class InsertionSortSorterNaturalOrderTest {
 
 
-    private final Comparable[] inputArray;
+    private final Comparable<Object>[] inputArray;
 
-    private final Comparable[] expectedArray;
+    private final Comparable<Object>[] expectedArray;
 
-    public InsertionSortSorterTest(Comparable[] inputArray, Comparable[] expectedArray) {
+    public InsertionSortSorterNaturalOrderTest(Comparable<Object>[] inputArray, Comparable<Object>[] expectedArray) {
         this.inputArray = inputArray;
         this.expectedArray = expectedArray;
     }
 
-    @Parameterized.Parameters(name = "{index}: insertion sort")
+
+    @Parameterized.Parameters(name = "{index}: insertion sort (natural order)")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
                 {new Comparable[]{7, 3, 8, 10, 9, 6, 5, 4, 1, 2}, new Comparable[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}}, // average case, no repeat

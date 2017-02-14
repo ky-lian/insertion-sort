@@ -14,9 +14,10 @@ public class InsertionSortSorter {
      * Sorts the specified list of {@link java.lang.Comparable} objects in ascending order.
      *
      * @param list the list to be sorted
+     * @throws IllegalArgumentException if the specified list is null.
+     * @throws ClassCastException       if some of the list's object type prevents it from being compared to another object.
      */
-    public static void sort(List<Comparable<Object>> list) {
-
+    public static <T extends Comparable> void sort(List<T> list) throws IllegalArgumentException, ClassCastException {
         sort(list, Comparator.naturalOrder());
     }
 
@@ -26,9 +27,21 @@ public class InsertionSortSorter {
      *
      * @param list       the list to be sorted
      * @param comparator the comparator to determine the order of the array.
-     *                   A null value indicates that the elements' {@link java.lang.Comparable natural ordering} should be used.
+     *                   A null value indicates that the elements' {@link java.lang.Comparable natural ordering}
+     *                   should be used.
+     * @throws IllegalArgumentException if the specified list is null.
+     * @throws ClassCastException       if some of the list's object type prevents it from being compared to another object.
      */
-    public static void sort(List<Comparable<Object>> list, Comparator<Comparable<Object>> comparator) {
+    public static <T extends Comparable> void sort(List<T> list, Comparator<? super T> comparator)
+            throws IllegalArgumentException, ClassCastException {
+
+        if (list == null) {
+            throw new IllegalArgumentException("Sortable list can't be null");
+        }
+
+        if (comparator == null) {
+            comparator = Comparator.naturalOrder();
+        }
 
         for (int i = 0; i < list.size(); ++i) {
             for (int j = i; j > 0; --j) {

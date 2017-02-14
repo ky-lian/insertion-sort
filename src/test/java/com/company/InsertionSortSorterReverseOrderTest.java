@@ -26,7 +26,7 @@ public class InsertionSortSorterReverseOrderTest {
         this.expectedArray = expectedArray;
     }
 
-    @Parameterized.Parameters(name = "{index}: insertion sort")
+    @Parameterized.Parameters(name = "{index}: insertion sort (reverse order)")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
                 {new Comparable[]{7, 3, 8, 10, 9, 6, 5, 4, 1, 2}, new Comparable[]{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}}, // average case, no repeat
@@ -45,7 +45,7 @@ public class InsertionSortSorterReverseOrderTest {
     }
 
     @Test
-    public void test() {
+    public void sort() {
         InsertionSortSorter.sort(Arrays.asList(inputArray), Comparator.reverseOrder());
         Assertions.assertArrayEquals(inputArray, expectedArray);
     }
