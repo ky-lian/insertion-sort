@@ -27,7 +27,7 @@ public class FileInsertionSort {
         try {
             CommandLine cmd = parser.parse(options, args);
 
-            if (cmd.hasOption("help")) {
+            if (args.length == 0 || cmd.hasOption("help")) {
                 HelpFormatter formatter = new HelpFormatter();
                 formatter.printHelp("FileInsertionSort [OPTION]... [INPUT FILE] [OUTPUT FILE]", options);
                 return;
@@ -36,7 +36,7 @@ public class FileInsertionSort {
             List<String> argList = cmd.getArgList();
 
             if (argList.size() == 0) {
-                throw new ParseException("Input and output files was not specified.");
+                throw new ParseException("Input and output files were not specified.");
             }
 
             if (argList.size() == 1) {
