@@ -36,11 +36,11 @@ public class FileInsertionSort {
             List<String> argList = cmd.getArgList();
 
             if (argList.size() == 0) {
-                throw new ParseException("input and output files was not specified.");
+                throw new ParseException("Input and output files was not specified.");
             }
 
             if (argList.size() == 1) {
-                throw new ParseException("output file was not specified.");
+                throw new ParseException("Output file was not specified.");
             }
 
 
@@ -74,14 +74,14 @@ public class FileInsertionSort {
             sortFileAndWrite(inputFilePath, outputFilePath, parseStringFunction, comparator);
 
             System.out.println(String.join(" ",
-                    "Sort was completed successfully. Sorted data was written in file: ", outputFilePath));
+                    "Sort was completed successfully. Sorted data was written in the file: ", outputFilePath));
 
         } catch (ParseException | IllegalArgumentException e) {
             System.out.println(String.join(" ", "Error: ", e.getMessage()));
         } catch (IOException e) {
             System.out.println(String.join(" ", "Error while reading or writing file:", e.getMessage()));
         } catch (ClassCastException e) {
-            System.out.println(String.join(" ", "Error: mixed data types in input file: ", e.getMessage()));
+            System.out.println(String.join(" ", "Error while parsing input data: ", e.getMessage()));
         } catch (NullPointerException e) {
             System.out.println("Error: input or output file was not specified.");
         }

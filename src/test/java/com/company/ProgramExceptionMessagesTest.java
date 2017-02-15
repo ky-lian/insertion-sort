@@ -110,5 +110,25 @@ public class ProgramExceptionMessagesTest {
         FileInsertionSort.main(new String[]{"-a", "asd", "asf"});
     }
 
+    @Test
+    public void multipleDataInRowTest() throws Exception {
+
+        File inputFile = folder.newFile("input.txt");
+        File outputFile = folder.newFile("output.txt");
+
+        List<Integer> list = new ArrayList<>();
+        list.addAll(Arrays.asList(1, 2, 3));
+
+
+        try (PrintWriter writeFile = new PrintWriter(inputFile.getPath())) {
+            for (Integer object : list) {
+                writeFile.print(object + " ");
+            }
+        }
+
+        FileInsertionSort.main(new String[]{"-i", "-d", inputFile.getPath(), outputFile.getPath()});
+
+    }
+
 
 }
