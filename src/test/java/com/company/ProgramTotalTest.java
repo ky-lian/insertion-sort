@@ -124,5 +124,12 @@ public class ProgramTotalTest {
 
     }
 
+    @Test
+    public void nullArgshelpMessageTest() throws Exception {
+
+        FileInsertionSort.main(new String[]{});
+
+    }
+
 
 }

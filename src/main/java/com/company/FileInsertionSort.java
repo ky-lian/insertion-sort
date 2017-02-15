@@ -81,7 +81,9 @@ public class FileInsertionSort {
         } catch (IOException e) {
             System.out.println(String.join(" ", "Error while reading or writing file:", e.getMessage()));
         } catch (ClassCastException e) {
-            System.out.println(String.join(" ", "Error while parsing input data: ", e.getMessage()));
+            System.out.println(String.join(" ", "Error while parsing input data: ", e.getMessage(),
+                    "; make sure that there is no more than one element at line in input file and that selected",
+                    "data type is valid for input file."));
         } catch (NullPointerException e) {
             System.out.println("Error: input or output file was not specified.");
         }
