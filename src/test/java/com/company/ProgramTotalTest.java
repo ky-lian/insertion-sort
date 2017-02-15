@@ -117,4 +117,12 @@ public class ProgramTotalTest {
     }
 
 
+    @Test
+    public void helpMessageTest() throws Exception {
+
+        FileInsertionSort.main(new String[]{"-help"});
+
+    }
+
+
 }

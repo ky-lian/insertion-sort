@@ -17,14 +17,22 @@ public class FileInsertionSort {
     public static void main(String[] args) {
         Options options = new Options();
 
-        options.addOption("i", "Integer data type");
-        options.addOption("s", "String data type");
-        options.addOption("d", "Descending sort");
-        options.addOption("a", "Ascending sort");
+        options.addOption("i", "integer data type");
+        options.addOption("s", "string data type");
+        options.addOption("a", "ascending sort");
+        options.addOption("d", "descending sort");
+        options.addOption("help", "print this message");
 
         CommandLineParser parser = new DefaultParser();
         try {
             CommandLine cmd = parser.parse(options, args);
+
+            if (cmd.hasOption("help")) {
+                HelpFormatter formatter = new HelpFormatter();
+                formatter.printHelp("FileInsertionSort [OPTION]... [INPUT FILE] [OUTPUT FILE]", options);
+                return;
+            }
+
             List<String> argList = cmd.getArgList();
 
             if (argList.size() == 0) {
@@ -65,6 +73,8 @@ public class FileInsertionSort {
 
             sortFileAndWrite(inputFilePath, outputFilePath, parseStringFunction, comparator);
 
+            System.out.println(String.join(" ",
+                    "Sort was completed successfully. Sorted data was written in file: ", outputFilePath));
 
         } catch (ParseException | IllegalArgumentException e) {
             System.out.println(String.join(" ", "Error: ", e.getMessage()));
@@ -75,6 +85,7 @@ public class FileInsertionSort {
         } catch (NullPointerException e) {
             System.out.println("Error: input or output file was not specified.");
         }
+
 
     }
 
