@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * This class contains methods for sorting lists of Objects, which implement {@link java.lang.Comparable} interface.
  */
-public class InsertionSortSorter {
+public class InsertionSorter {
 
     /**
      * Sorts the specified list of {@link java.lang.Comparable} objects in ascending order.

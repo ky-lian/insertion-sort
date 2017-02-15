@@ -13,18 +13,17 @@ import java.util.Collection;
  * Insertion sort testing, including Integer and String sorting, ascending and descending order.
  */
 @RunWith(Parameterized.class)
-public class InsertionSortSorterNaturalOrderTest {
+public class InsertionSorterNaturalOrderTest {
 
 
     private final Comparable<Object>[] inputArray;
 
     private final Comparable<Object>[] expectedArray;
 
-    public InsertionSortSorterNaturalOrderTest(Comparable<Object>[] inputArray, Comparable<Object>[] expectedArray) {
+    public InsertionSorterNaturalOrderTest(Comparable<Object>[] inputArray, Comparable<Object>[] expectedArray) {
         this.inputArray = inputArray;
         this.expectedArray = expectedArray;
     }
-
 
     @Parameterized.Parameters(name = "{index}: insertion sort (natural order)")
     public static Collection<Object[]> data() {
@@ -40,13 +39,14 @@ public class InsertionSortSorterNaturalOrderTest {
                 {new Comparable[]{"d", "c", "b", "a"}, new Comparable[]{"a", "b", "c", "d"}}, // worst case
                 {new Comparable[]{"a", "b", "c", "d"}, new Comparable[]{"a", "b", "c", "d"}}, // best case
                 {new Comparable[]{"a", "a", "a", "a"}, new Comparable[]{"a", "a", "a", "a"}}, // best case, with repeat
-                {new Comparable[]{"a"}, new Comparable[]{"a"}} // minimal set
+                {new Comparable[]{"a"}, new Comparable[]{"a"}}, // minimal set
+                {new Comparable[]{}, new Comparable[]{}} // empty
         });
     }
 
     @Test
     public void test() {
-        InsertionSortSorter.sort(Arrays.asList(inputArray));
+        InsertionSorter.sort(Arrays.asList(inputArray));
         Assertions.assertArrayEquals(inputArray, expectedArray);
     }
 

@@ -14,14 +14,14 @@ import java.util.Comparator;
  * Reverse order Insertion sort testing, including Integer and String sorting.
  */
 @RunWith(Parameterized.class)
-public class InsertionSortSorterReverseOrderTest {
+public class InsertionSorterReverseOrderTest {
 
 
     private final Comparable<Object>[] inputArray;
 
     private final Comparable<Object>[] expectedArray;
 
-    public InsertionSortSorterReverseOrderTest(Comparable<Object>[] inputArray, Comparable<Object>[] expectedArray) {
+    public InsertionSorterReverseOrderTest(Comparable<Object>[] inputArray, Comparable<Object>[] expectedArray) {
         this.inputArray = inputArray;
         this.expectedArray = expectedArray;
     }
@@ -40,13 +40,14 @@ public class InsertionSortSorterReverseOrderTest {
                 {new Comparable[]{"d", "c", "b", "a"}, new Comparable[]{"d", "c", "b", "a"}}, // worst case
                 {new Comparable[]{"a", "b", "c", "d"}, new Comparable[]{"d", "c", "b", "a"}}, // best case
                 {new Comparable[]{"a", "a", "a", "a"}, new Comparable[]{"a", "a", "a", "a"}}, // best case, with repeat
-                {new Comparable[]{"a"}, new Comparable[]{"a"}} // minimal set
+                {new Comparable[]{"a"}, new Comparable[]{"a"}}, // minimal set
+                {new Comparable[]{}, new Comparable[]{}} // empty
         });
     }
 
     @Test
     public void sort() {
-        InsertionSortSorter.sort(Arrays.asList(inputArray), Comparator.reverseOrder());
+        InsertionSorter.sort(Arrays.asList(inputArray), Comparator.reverseOrder());
         Assertions.assertArrayEquals(inputArray, expectedArray);
     }
 
