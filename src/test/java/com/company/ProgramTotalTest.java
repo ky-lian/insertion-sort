@@ -125,7 +125,7 @@ public class ProgramTotalTest {
     }
 
     @Test
-    public void nullArgshelpMessageTest() throws Exception {
+    public void nullArgsHelpMessageTest() throws Exception {
 
         FileInsertionSort.main(new String[]{});
 

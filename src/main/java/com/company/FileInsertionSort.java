@@ -2,10 +2,9 @@ package com.company;
 
 import org.apache.commons.cli.*;
 
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -17,10 +16,10 @@ public class FileInsertionSort {
     public static void main(String[] args) {
         Options options = new Options();
 
-        options.addOption("i", "integer data type");
-        options.addOption("s", "string data type");
-        options.addOption("a", "ascending sort");
-        options.addOption("d", "descending sort");
+        options.addOption("i", "integer data type (mutually exclusive with option -s)");
+        options.addOption("s", "string data type (mutually exclusive with option -i)");
+        options.addOption("a", "ascending sort  (mutually exclusive with option -d)");
+        options.addOption("d", "descending sort  (mutually exclusive with option -a)");
         options.addOption("help", "print this message");
 
         CommandLineParser parser = new DefaultParser();
@@ -36,11 +35,11 @@ public class FileInsertionSort {
             List<String> argList = cmd.getArgList();
 
             if (argList.size() == 0) {
-                throw new ParseException("Input and output files were not specified.");
+                throw new ParseException("Error: Input and Output files were not specified.");
             }
 
             if (argList.size() == 1) {
-                throw new ParseException("Output file was not specified.");
+                throw new IllegalArgumentException("Error: Output file was not specified.");
             }
 
 
@@ -50,7 +49,8 @@ public class FileInsertionSort {
 
             Comparator comparator;
             if (cmd.hasOption("a") && cmd.hasOption("d")) {
-                throw new ParseException("Options -a and -d are mutually exclusive.");
+                throw new IllegalArgumentException(String.join(" ", "Error: Options -a and -d are mutually exclusive. ",
+                        "Please, run program with one of these two options."));
             } else if (cmd.hasOption("a")) {
                 comparator = Comparator.naturalOrder();
             } else if (cmd.hasOption("d")) {
@@ -62,30 +62,32 @@ public class FileInsertionSort {
 
             Function parseStringFunction;
             if (cmd.hasOption("i") && cmd.hasOption("s")) {
-                throw new ParseException("Options -i and -s are mutually exclusive.");
+                throw new IllegalArgumentException(String.join(" ", "Error: Options -i and -s are mutually exclusive. ",
+                        "Please, run program with one of these two options."));
             } else if (cmd.hasOption("i")) {
                 parseStringFunction = x -> Integer.parseInt(x.toString());
             } else if (cmd.hasOption("s")) {
                 parseStringFunction = x -> x;
             } else {
-                throw new ParseException("Data type was not specified.");
+                throw new IllegalArgumentException("Data type was not specified.");
             }
 
             sortFileAndWrite(inputFilePath, outputFilePath, parseStringFunction, comparator);
 
-            System.out.println(String.join(" ",
-                    "Sort was completed successfully. Sorted data was written in the file: ", outputFilePath));
+            System.out.println(String.join(" ", "Sort was completed successfully.",
+                    "\nData was read from the file:", inputFilePath,
+                    "\nSorted data was written to the file:", outputFilePath,
+                    "\nSorted data type:", cmd.hasOption("-i") ? "integer" : "string",
+                    "\nSort ordering:", cmd.hasOption("-a") ? "ascending" : "descending"));
 
-        } catch (ParseException | IllegalArgumentException e) {
-            System.out.println(String.join(" ", "Error: ", e.getMessage()));
-        } catch (IOException e) {
-            System.out.println(String.join(" ", "Error while reading or writing file:", e.getMessage()));
-        } catch (ClassCastException e) {
-            System.out.println(String.join(" ", "Error while parsing input data: ", e.getMessage(),
-                    "; make sure that there is no more than one element at line in input file and that selected",
-                    "data type is valid for input file."));
+        } catch (IllegalArgumentException | IOException | ClassCastException e) {
+            System.out.println(e.getMessage());
+        } catch (ParseException e) {
+            System.out.println(String.join(" ", "Error:", e.getMessage()));
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("FileInsertionSort [OPTION]... [INPUT FILE] [OUTPUT FILE]", options);
         } catch (NullPointerException e) {
-            System.out.println("Error: input or output file was not specified.");
+            System.out.println("Error: Input or Output files were not specified.");
         }
 
 
@@ -119,15 +121,16 @@ public class FileInsertionSort {
 
 
         if (sourceFilePath == null || outputFilePath == null || parseStringFunction == null) {
-            throw new IllegalArgumentException("At least one argument is null.");
+            throw new IllegalArgumentException("Error: At least one argument is null.");
         }
 
         if (sourceFilePath.isEmpty() || outputFilePath.isEmpty()) {
-            throw new IllegalArgumentException("Source or output file path can't be empty.");
+            throw new IllegalArgumentException("Error: Input or Output file path can't be empty string.");
         }
 
         if (sourceFilePath.equals(outputFilePath)) {
-            throw new IllegalArgumentException("Source file can't be the same as output file.");
+            throw new IllegalArgumentException(String.join(" ", "Error: Input file matches Output file.",
+                    "Please, select two distinct files"));
         }
 
         List<T> list = readListFromFile(sourceFilePath, parseStringFunction);
@@ -139,24 +142,35 @@ public class FileInsertionSort {
     private static <T> List<T> readListFromFile(String filePath, Function<String, T> parseStringFunction)
             throws IOException {
         List<T> list = new ArrayList<>();
-        try (Scanner fileToSort = new Scanner(Paths.get(filePath))) {
-            while (fileToSort.hasNext()) {
+        try (Scanner fileToSort = new Scanner(new File(filePath))) {
+
+            Integer currentLine = 0;
+            while (fileToSort.hasNextLine()) {
                 try {
+                    currentLine++;
                     T object = parseStringFunction.apply(fileToSort.nextLine());
                     list.add(object);
                 } catch (IllegalArgumentException e) {
-                    throw new ClassCastException(e.getMessage());
+
+                    throw new ClassCastException(String.join(" ", "Error while processing input data at line:",
+                            currentLine.toString(), e.getMessage(),
+                            "\nMake sure that there is no more than one element at line and that selected data type is",
+                            "valid for input file."));
                 }
             }
+        } catch (IOException e) {
+            throw new IOException(String.join(" ", "Error while reading the file:", e.getMessage()), e);
         }
         return list;
     }
 
-    private static <T> void writeListToFile(List<T> list, String filePath) throws FileNotFoundException {
+    private static <T> void writeListToFile(List<T> list, String filePath) throws IOException {
         try (PrintWriter writeFile = new PrintWriter(filePath)) {
             for (T object : list) {
                 writeFile.println(object);
             }
+        } catch (IOException e) {
+            throw new IOException(String.join(" ", "Error while writing to the file:", e.getMessage()), e);
         }
     }
 
