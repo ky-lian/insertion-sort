@@ -69,7 +69,7 @@ public class FileInsertionSort {
             } else if (cmd.hasOption("s")) {
                 parseStringFunction = x -> x;
             } else {
-                throw new IllegalArgumentException("Data type was not specified.");
+                throw new IllegalArgumentException("Error: Data type was not specified.");
             }
 
             sortFileAndWrite(inputFilePath, outputFilePath, parseStringFunction, comparator);
@@ -154,7 +154,7 @@ public class FileInsertionSort {
 
                     throw new ClassCastException(String.join(" ", "Error while processing input data at line:",
                             currentLine.toString(), e.getMessage(),
-                            "\nMake sure that there is no more than one element at line and that selected data type is",
+                            "\nMake sure that there is exactly one element at line and that selected data type is",
                             "valid for input file."));
                 }
             }
