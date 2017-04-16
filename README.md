@@ -9,12 +9,12 @@ Input file must not match output file. Warning: Data contained in the specified 
 
 **Supported ordering**: ascending and descending.
 
-##Usage: 
+## Usage: 
 ```
   java -jar FileInsertionSort.jar [OPTIONS]... [INPUT FILE] [OUTPUT FILE]
 ```
 To run program, you need JRE of version 1.8 or higher.
-##Options:
+## Options:
 ```
 -help  -  prints help message
 -a     -  ascending sort
@@ -38,12 +38,12 @@ Note, that *-a* and *-d*, *-i* and *-s* are mutually exclusive options.
 
 **Поддерживаемые порядки сортировки**: по возрастанию и убыванию.
 
-##Использование: 
+## Использование: 
 ```
   java -jar FileInsertionSort.jar [ОПЦИИ]... [ВХОДНОЙ ФАЙЛ] [ВЫХОДНОЙ ФАЙЛ]
 ```
 Для запуска необходимо JRE версии 1.8 и выше.
-##Options:
+## Options:
 ```
 -help  -  выводит справочное сообщение
 -a     -  сортировка по возрастанию
